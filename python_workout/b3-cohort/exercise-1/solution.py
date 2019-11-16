@@ -32,18 +32,19 @@ class JSONMixin:
 
 
 class CSVMixin:
-    fieldnames = ["title", "author", "price"]
-
     def dump(self, file_path):
         with open(file_path, "w", newline="") as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=CSVMixin.fieldnames)
+            fieldnames = vars(self).keys()
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
             writer.writerow(vars(self))
 
 
     def load(self, file_path):
         with open(file_path, "r", newline="") as csvfile:
-            reader = csv.DictReader(csvfile, fieldnames=CSVMixin.fieldnames)
+            reader = csv.DictReader(csvfile)
             attrs = next(reader)
+
             for attr, value in attrs.items():
                 setattr(self, attr, value)
 
@@ -51,20 +52,14 @@ class CSVMixin:
 class XMLMixin:
     def dump(self, file_path):
         with open(file_path, "w") as xmlfile:
-            book_element = Element("book")
+            root_element = Element("root")
 
-            title_element = SubElement(book_element, "title")
-            author_element = SubElement(book_element, "author")
-            price_element = SubElement(book_element, "price")
-            title_element.text = self.title
-            author_element.text = self.author
-            price_element.text = str(self.price)
+            for attr, value in vars(self).items():
+                sub_element = SubElement(root_element, attr)
+                sub_element.text = str(value)
+                root_element.append(sub_element)
 
-            book_element.append(title_element)
-            book_element.append(author_element)
-            book_element.append(price_element)
-
-            tree = ElementTree(book_element)
+            tree = ElementTree(root_element)
 
             tree.write(file_path)
 
