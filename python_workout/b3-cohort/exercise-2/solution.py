@@ -23,9 +23,9 @@ class AbstractPayment(ABC):
         pass
 
 
-class CannotChargeError:
+class CannotChargeError(Exception):
     pass
 
 
-class CannotReverseError:
+class CannotReverseError(Exception):
     pass
