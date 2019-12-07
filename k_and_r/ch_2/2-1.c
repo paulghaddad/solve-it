@@ -8,9 +8,9 @@
 #include <limits.h>
 #include <float.h>
 
-main() {
+int main() {
   // char type
-  printf("The size of the char type is %d\n", CHAR_BIT);
+  printf("The size of the %s type is %d\n", "char", CHAR_BIT);
   printf("The range of values for the char type is %d to %d\n", CHAR_MIN, CHAR_MAX);
 
   // signed short type
@@ -36,4 +36,6 @@ main() {
 
   // double type
   printf("The range of values for the double type is %f to %f\n", DBL_MIN, DBL_MAX);
+
+  return 0;
 }
