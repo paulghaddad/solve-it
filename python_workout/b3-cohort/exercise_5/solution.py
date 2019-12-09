@@ -1,16 +1,9 @@
 class ImmutableParent():
     def __init__(self, **kwargs):
-        for attr, value in kwargs.items():
-            setattr(self, f"_{attr}", value)
-
-        setattr(self, _frozen, True)
-
-    def __getattr__(self, attr):
-        return getattr(self, f"_{attr}")
-
+        self.__dict__ = kwargs
 
     def __setattr__(self, attr, value):
-        if f"_{attr}" in vars(self).keys():
+        if self.__dict__:
             raise ImmutableMeansImmutableError(f"Cannot set {attr}")
         super().__setattr__(attr, value)
 

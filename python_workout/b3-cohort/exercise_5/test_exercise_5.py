@@ -18,4 +18,4 @@ def test_immutable():
         im.a = 'Hello'
         assert 'Cannot set a' in e
 
-    # assert vars(im) == {'x': 111, 'y': 222, 'z': [10, 20, 'hello']}
+    assert vars(im) == {'x': 111, 'y': 222, 'z': [10, 20, 'hello']}
