@@ -1,23 +1,16 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/* Ex.1-3 - Print a header above the temperature conversion program */
+int main(void) {
+  float fTemp, cTemp;
 
-int main() {
-  float fahr, celsius;
-  int lower, upper, step;
+  printf("Fahrenheit\t\tCelsius\n");
 
-  lower = 0;
-  upper = 300;
-  step = 20;
+  for (fTemp = 0; fTemp <= 300; fTemp += 20) {
+    cTemp = 5.0 * (fTemp-32.0) / 9.0;
 
-  fahr = lower;
-
-  printf("Fahrenheit   Celsius\n");
-  while (fahr <= upper) {
-    celsius = (5.0/9.0) * (fahr - 32.0);
-    printf("%10.0f   %5.1f\n", fahr, celsius);
-    fahr += step;
+    printf("%10.1f\t%15.1f\n", fTemp, cTemp);
   }
 
-  return 1;
+  return EXIT_SUCCESS;
 }

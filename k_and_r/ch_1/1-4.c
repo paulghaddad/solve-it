@@ -1,23 +1,16 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/* Ex.1-4 - Print the corresponding Celsius to Fahrenheit Table*/
+int main(void) {
+  float cTemp = 0, fTemp;
 
-int main() {
-  float fahr, celsius;
-  int lower, upper, step;
+  printf("Celsius\t\tFahrenheit\n");
 
-  lower = 0;
-  upper = 300;
-  step = 20;
-
-  celsius = lower;
-
-  printf("Celsius  Fahrenheit\n");
-  while (celsius <= upper) {
-    fahr = celsius * (9.0/5.0) + 32.0;
-    printf("%10.0f   %5.1f\n", celsius, fahr);
-    celsius += step;
+  while (cTemp <= 150) {
+    fTemp = cTemp * 1.8 + 32;
+    printf("%7.1f\t%15.1f\n", cTemp, fTemp);
+    cTemp += 20;
   }
 
-  return 1;
+  return EXIT_SUCCESS;
 }

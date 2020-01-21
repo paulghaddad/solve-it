@@ -1,12 +1,15 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/* Print the F-C table in reverse order */
 
-int main() {
-  int fahr;
+int main(void) {
+  printf("Fahrenheit      Celsius\n");
 
-  for (fahr = 300; fahr >= 0; fahr -= 20)
-    printf("%3d %6.1f\n", fahr, (5.0/9.0) * (fahr-32.0));
+  for (float tempF = 300.0; tempF >= 0; tempF -= 20) {
+    float tempC = (5.0/9.0) * (tempF - 32);
 
-  return 1;
+    printf("%6.1f\t\t%6.1f\n", tempF, tempC);
+  }
+
+  return EXIT_SUCCESS;
 }

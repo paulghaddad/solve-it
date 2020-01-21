@@ -1,14 +1,12 @@
-/*
- * Experiment to find out what happens when printf's argument string contains
- * \c, where c is some character not listed above.
- */
+#include <stdlib.h>
 #include <stdio.h>
 
-main()
-{
-  printf("hello, world\y");
-}
 
-/* We get a warning:
- * unknown escape sequence '\y'
- */
+int main(void) {
+  printf("This is what happens with a tab character\t.\n");
+  printf("This is what happens with a backspace character\b.\n");
+  printf("This is what happens for a \"double quoted\" string.\n");
+  printf("This is what happens for a backslash itself \\.\n");
+
+  return EXIT_SUCCESS;
+}
