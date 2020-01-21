@@ -1,18 +1,24 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/* Print the input one word per line. */
+#define IN_WORD 1
+#define WORD_BOUNDARY 0
 
-main() {
-  int c, prev_c;
+int main(void) {
+  int c;
+  int state = WORD_BOUNDARY;
 
   while ((c = getchar()) != EOF) {
-    if (c == ' ' || c == '\n' || c == '\t') {
-      if (prev_c != ' ' && prev_c != '\n' && prev_c != '\t')
-        putchar('\n');
-    }
-    else
+    if (!state && c >= 'A' && c <= 'z') {
       putchar(c);
-
-    prev_c = c;
+      state = IN_WORD;
+    } else if (state && c >= 'A' && c <= 'z') {
+      putchar(c);
+    } else {
+      state = WORD_BOUNDARY;
+      putchar('\n');
+    }
   }
+
+  return EXIT_SUCCESS;
 }
