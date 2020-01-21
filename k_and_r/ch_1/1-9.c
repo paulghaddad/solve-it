@@ -1,15 +1,16 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/* Copy input to output, replacing each string of one or more blanks by a single
- * blank. */
-
-main() {
-  int c, prev_c;
+int main(void) {
+  int c;
+  int prevChar = 0;
 
   while ((c = getchar()) != EOF) {
-    if (!(c == ' ' && c == prev_c))
+    if (c != ' ' || prevChar != ' ')
       putchar(c);
 
-    prev_c = c;
+    prevChar = c;
   }
+
+  return EXIT_SUCCESS;
 }

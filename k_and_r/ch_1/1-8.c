@@ -1,30 +1,22 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/*
- * Count blanks, tabs and newlines.
- * Run with: echo -e "Hello \n\tWorld" | ./1-8
- * */
-
-
-main() {
-  int c, blank, tab, nl;
-
-  blank = 0;
-  tab = 0;
-  nl = 0;
+int main(void) {
+  int newlines = 0;
+  int blanks = 0;
+  int tabs = 0;
+  int c;
 
   while ((c = getchar()) != EOF) {
-    if (c == ' ')
-      ++blank;
-
-    if (c == '\t')
-      ++tab;
-
     if (c == '\n')
-      ++nl;
+      ++newlines;
+    else if (c == 't')
+      ++tabs;
+    else if (c == ' ')
+      ++blanks;
   }
 
-  printf("Blanks: %d\n", blank);
-  printf("Tabs: %d\n", tab);
-  printf("Newlines: %d\n", nl);
+  printf("There are %d newlines, %d blanks, and %d tabs in the input\n", newlines, blanks, tabs);
+
+  return EXIT_SUCCESS;
 }

@@ -1,28 +1,20 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/* Copy input to output, replacing each tab by \t, each backspace by \b and each backslash by \\ */
-
-main() {
+int main(void) {
   int c;
 
   while ((c = getchar()) != EOF) {
-    if (c == '\t') {
-      putchar('\\');
-      putchar('t');
-    }
-
-    if (c == '\b') {
-      putchar('\\');
-      putchar('b');
-    }
-
-    if (c == '\\') {
-      putchar('\\');
-      putchar('\\');
-    }
-
-
-    if ((c != '\t') && (c != '\b') && (c != '\\'))
+    if (c == '\t')
+      printf("\\t");
+    else if (c == '\b')
+      printf("\\b");
+    else if (c == '\\')
+      printf("\\\\");
+    else
       putchar(c);
   }
+
+  return EXIT_SUCCESS;
+
 }
