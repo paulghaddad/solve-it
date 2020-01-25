@@ -1,22 +1,23 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/* Rewrite the temperature conversion program of Section 1.2 to use a function
- * for conversion. */
+float fahrenheitToCelsius(float temp);
 
-float fahr_to_cels(float fahr);
+int main(void) {
+  float fTemp;
 
-main() {
-  float lower = 0.0;
-  int upper = 300;
-  float step = 20.0;
+  printf("Fahrenheit\t\tCelsius\n");
 
-  printf("Fahrenheit\tCelsius\n");
-
-  for (float fahr = lower; fahr <= upper; fahr += step) {
-    printf("%10.1f\t%6.1f\n", fahr, fahr_to_cels(fahr));
+  for (fTemp = 0; fTemp <= 300; fTemp += 20) {
+    printf("%10.1f\t%15.1f\n", fTemp, fahrenheitToCelsius(fTemp));
   }
+
+  return EXIT_SUCCESS;
 }
 
-float fahr_to_cels(float fahr) {
-  return 5.0 * (fahr-32.0) / 9.0;
+float fahrenheitToCelsius(float temp) {
+  float cTemp;
+  cTemp = 5.0 * (temp-32.0) / 9.0;
+
+  return cTemp;
 }

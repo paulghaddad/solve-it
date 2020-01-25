@@ -1,54 +1,32 @@
+#include <stdlib.h>
 #include <stdio.h>
-#define MAXLINE 1000
 
-/* Write a function reverse(s) that reverses the character string s. Use it to
- * write a program that reverses each line of a file. */
+#define MAX_LINE 100
 
-int get_line(char line[], int maxline);
-void reverse(char line[], char reversed_line[]);
+void reverse(char originalString[], char reversedString[]);
 
-main() {
-  int len;
-  char line[MAXLINE];
-  char reversed_line[MAXLINE];
+int main(void) {
+  char string[MAX_LINE] = "The Ohio State Buckeyes\0";
+  char reversedString[MAX_LINE];
 
-  while ((len = get_line(line, MAXLINE)) > 0) {
-    reverse(line, reversed_line);
-    printf("%s\n", reversed_line);
-  }
+  reverse(string, reversedString);
+
+  printf("The reversed string is:  %s\n", reversedString);
+
+  return EXIT_SUCCESS;
 }
 
-int get_line(char s[], int lim) {
-  int c, i;
-
-  for (i = 0; i< lim-1 && (c=getchar()) != EOF && c != '\n'; ++i)
-    s[i] = c;
-
-  if (c == '\n') {
-    s[i] = c; 
-    ++i;
+void reverse(char originalString[], char reversedString[]) {
+  int length = 0;
+  while (originalString[length] != '\0') {
+    ++length;
   }
 
-  s[i] = '\0';
-  return i;
-}
-
-void reverse(char line[], char reversed_line[]) {
-  int i;
-  int j = 0;
-  char c;
-  int line_length = 0;
-
-  for (i = 0; line[i] != '\0'; ++i)
-    line_length++;
-
-
-  for (i = line_length-1; i >= 0; --i) {
-    if (line[i] != '\n') {
-      reversed_line[j] = line[i];
-      ++j;
-    }
-
-    reversed_line[j] = '\0';
+  int j = length;
+  for (int i = 0; i < length; ++i) {
+    reversedString[i] = originalString[j-1];
+    --j;
   }
+
+  reversedString[length] = '\0';
 }

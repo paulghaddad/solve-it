@@ -18,8 +18,6 @@ int main(void) {
       max = len;
       copy(longest, line);
     }
-    printf("The current line length is %d\n", len);
-    printf("The line is: %s\n", line);
   }
 
   if (max > 0)
@@ -29,20 +27,16 @@ int main(void) {
 }
 
 int getLine(char s[], int lim) {
-  int c, i, j;
-  j = 0;
+  int c, i;
 
-  for (i=0; (c=getchar()) != EOF && c != '\n'; ++i) {
-    s[j] = c;
-    ++j;
-  }
+  for (i=0; i<lim-1 && (c=getchar()) != EOF && c != '\n'; ++i)
+    s[i] = c;
 
   if (c == '\n') {
     s[i] = c;
     ++i;
-    ++j;
   }
-  s[j] = '\0';
+  s[i] = '\0';
   return i;
 }
 

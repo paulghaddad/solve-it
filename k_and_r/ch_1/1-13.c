@@ -1,32 +1,34 @@
+#include <stdlib.h>
 #include <stdio.h>
 
-/* Print a histogram of the lengths of words in an input. */
+#define IN_WORD 1
+#define OUT_WORD 0
 
-#define MAX_WORD_LENGTH 10
-
-main() {
+int main(void) {
   int c;
-  int word_length = 0;
+  int length = 0;
+  int state = OUT_WORD;
 
-  int word_histogram[MAX_WORD_LENGTH];
+  int wordLengths[15];
 
-  for (int i = 0; i < MAX_WORD_LENGTH; i++)
-    word_histogram[i] = 0;
+  for (int i = 0; i < 15; ++i)
+    wordLengths[i] = 0;
 
   while ((c = getchar()) != EOF) {
-    if (c == '\n') {
-      word_histogram[word_length]++;
-      word_length = 0;
-    } else {
-      word_length++;
+    if (state && c >= 'A' && c <= 'z') {
+      ++length;
+    } else if (!state && c >= 'A' && c <= 'z') {
+      state = IN_WORD;
+      ++length;
+    } else if (state && c == ' ') {
+      state = OUT_WORD;
+      ++wordLengths[length];
+      length = 0;
     }
   }
 
-  for (int i = 0; i < MAX_WORD_LENGTH; i++) {
-    printf("%d ", i);
-    for (int j = 0; j < word_histogram[i]; j++)
-      putchar('*');
+  for (int i = 1; i < 15; ++i)
+    printf("Number of words of length %d: %d\n", i, wordLengths[i]);
 
-    putchar('\n');
-  }
+  return EXIT_SUCCESS;
 }
