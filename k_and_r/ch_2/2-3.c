@@ -3,37 +3,45 @@
  * allowable digits are 0 through 9, a through f, and A through F. */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 
 int htoi(char s[]);
 
 int main() {
-  printf("The integer value of %s is %d and expected value is %d\n", "ae0f", htoi("ae0f"), 0xae0f);
+  printf("The integer value of %s is %d and expected value is %d\n", "ae0f\0", htoi("ae0f\0"), 0xae0f);
   printf("The integer value of %s is %d and expected value is %d\n", "0xae0f", htoi("0xae0f"), 0xae0f);
   printf("The integer value of %s is %d and expected value is %d\n", "0XAE0F", htoi("0XAE0F"), 0xae0f);
   printf("The integer value of %s is %d and expected value is %d\n", "2x", htoi("2x"), -1);
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 
-int htoi(char *hex) {
-  int value = 0;
-  char c;
+int htoi(char hexValue[]) {
+  double decimalValue = 0;
+  int i;
 
-  while ((c = tolower(*hex++)) != '\0') {
-    value <<= 4; // Equivalent to multiplying the value by 2^4 = 16
-
-    if (c == 'x' && value == 0)
-      continue;
-
-    if (c >= '0' && c <= '9') {
-      value += (c - '0');
-    } else if (c >= 'a' && c <= 'f') {
-      value += (c - 'a' + 10);
-    } else
-      return -1;
-
+  if (tolower(hexValue[0]) == '0' && tolower(hexValue[1]) == 'x') {
+    i = 2;
+  } else {
+    i = 0;
   }
 
-  return value;
+  char digit;
+
+  while ((digit = tolower(hexValue[i]))) {
+    decimalValue *= 16;
+
+    if (isdigit(digit)) {
+      decimalValue += (digit - '0');
+    } else if (isalpha(digit) && digit >= 'a' && digit <= 'f') {
+      decimalValue += (digit - 'a' + 10);
+    } else {
+      return -1;
+    }
+
+    ++i;
+  }
+
+  return decimalValue;
 }

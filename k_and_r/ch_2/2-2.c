@@ -1,33 +1,42 @@
-/* Write a loop equivalent to the for loop above without using && or ||. */
-
+#include <stdlib.h>
 #include <stdio.h>
-#define MAXLINE 1000
 
-int get_line(char line[], int maxline);
+#define MAX_LINE 100
+enum boolean { OUT_OF_WORD, IN_WORD };
 
-int main() {
-  int len;
-  char line[MAXLINE];
+int getLine(char s[], int lim);
 
-  while ((len = get_line(line, MAXLINE)) > 0)
-    printf("The line is %s\n", line);
+int main(void) {
+  char line[MAX_LINE];
+  int lineLength = getLine(line, MAX_LINE);
+  printf("The length of the line is %d.\n", lineLength);
 
-  return 0;
+
+  return EXIT_SUCCESS;
 }
 
-int get_line(char s[], int lim) {
+int getLine(char s[], int lim) {
   int c;
-  int i = 0;
 
-  while (i < lim-1) {
+  /* for (i=0; i<lim-1 && (c=getchar()) != EOF && c != '\n'; ++i) { */
+  /*   s[i] = c; */
+  /* } */
+
+  int i = 0;
+  int state = IN_WORD;
+
+  while (state == IN_WORD) {
+    if (i >= lim-1)
+      state = OUT_OF_WORD;
+
     c = getchar();
 
     if (c == EOF)
-      break;
-    else if (c == '\n')
-      break;
+      state = OUT_OF_WORD;
 
-    s[i] = c;
+    if (c == '\n')
+      state = OUT_OF_WORD;
+
     ++i;
   }
 
