@@ -1,15 +1,36 @@
 from string import ascii_lowercase as lowercase_letters
 
+# Time Complexity: O(n)
+# Space Complexity: O(1)
+
+def is_pangram_1(sentence):
+    uniq_letters = set()
+
+    for letter in sentence.lower():
+        if letter in lowercase_letters:
+            uniq_letters.add(letter)
+
+    return set(lowercase_letters) == uniq_letters
+
+
+# Time Complexity: O(n)
+# Space Complexity: O(1)
+
+def is_pangram_2(sentence):
+    all_letters = set(lowercase_letters)
+
+    for letter in sentence.lower():
+        all_letters.discard(letter)
+
+    return not all_letters
+
+
+# Time Complexity: O(n) -- not sure if this is the case
+# Space Complexity: O(1)
 
 def is_pangram(sentence):
-    # Approach 1: Are all the letters from a-z in the sentence
-    # return set(lowercase_letters).issubset(sentence.lower())
+    all_altters = set(lowercase_letters)
 
-    # Approach 2: Is every letter in a-z in the sentence
-    # return set(sentence.lower()).issuperset(lowercase_letters)
+    uniq_chars_in_sentence = set(sentence.lower())
 
-    return set(sentence.lower()) >= set(lowercase_letters)
-
-    # Approach 3: Use set difference: Is the set of lowercase letters minus all
-    # the letters in the sentence 0?
-    return not set(lowercase_letters) - set(sentence.lower())
+    return len(all_altters - uniq_chars_in_sentence) == 0
