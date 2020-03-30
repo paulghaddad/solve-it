@@ -28,9 +28,22 @@ def is_pangram_2(sentence):
 # Time Complexity: O(n) -- not sure if this is the case
 # Space Complexity: O(1)
 
-def is_pangram(sentence):
+def is_pangram_4(sentence):
     all_altters = set(lowercase_letters)
 
     uniq_chars_in_sentence = set(sentence.lower())
 
     return len(all_altters - uniq_chars_in_sentence) == 0
+
+
+# Time Complexity: O(n)
+# Space Complexity: O(1)
+
+def is_pangram(sentence):
+    lowercase_sentence = sentence.lower()
+
+    for letter in lowercase_letters:
+        if letter not in lowercase_sentence:
+            return False
+
+    return True
