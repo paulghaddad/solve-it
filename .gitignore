@@ -1,2 +1,14 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
 node_modules
 venv
+__pycache__
+.DS_Store
+modern_c/Ex_Files_Learning_C

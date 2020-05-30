@@ -2,14 +2,13 @@
 #include <stdio.h>
 
 int main(void) {
-  float cTemp = 0, fTemp;
+  float tempC, tempF;
 
-  printf("Celsius\t\tFahrenheit\n");
+  printf("Celsius  Fahrenheit\n");
 
-  while (cTemp <= 150) {
-    fTemp = cTemp * 1.8 + 32;
-    printf("%7.1f\t%15.1f\n", cTemp, fTemp);
-    cTemp += 20;
+  for (tempC = 0; tempC <= 100; tempC += 10) {
+    tempF = (9.0/5.0) * tempC + 32;
+    printf("%6.1f%10.1f\n", tempC, tempF);
   }
 
   return EXIT_SUCCESS;

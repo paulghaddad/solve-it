@@ -1,0 +1,3 @@
+We would like to be able to do addition of two series of 4 bit numbers.
+Lets design some circuitry that will allow us to do so.
+Throughout this exercise you can use any components you’ve already built, and any of the following logic gates.
