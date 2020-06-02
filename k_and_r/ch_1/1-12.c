@@ -1,23 +1,23 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
 
+#define OUT_WORD 0
 #define IN_WORD 1
-#define WORD_BOUNDARY 0
 
 int main(void) {
+  int state = OUT_WORD;
   int c;
-  int state = WORD_BOUNDARY;
 
   while ((c = getchar()) != EOF) {
-    if (!state && c >= 'A' && c <= 'z') {
-      putchar(c);
+    if ((state == IN_WORD) && (c == '\n' || c == '\t' || c == ' ')) {
+      state = OUT_WORD;
+      printf("\n");
+    } else if (state == OUT_WORD && isalnum(c)) {
       state = IN_WORD;
-    } else if (state && c >= 'A' && c <= 'z') {
       putchar(c);
-    } else {
-      state = WORD_BOUNDARY;
-      putchar('\n');
-    }
+    } else
+      putchar(c);
   }
 
   return EXIT_SUCCESS;

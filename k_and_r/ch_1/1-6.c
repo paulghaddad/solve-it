@@ -1,10 +1,14 @@
-#include <stdlib.h>
 #include <stdio.h>
-
+#include <stdlib.h>
 
 int main(void) {
-  printf("Press a key: \n");
-  printf("The value of EOF is: %d\n", getchar() != EOF);
+  int c;
+
+  while ((c = getchar()) != EOF) {
+    printf("The character is %d\n", c);
+  }
+
+  printf("The character at EOF is %d\n", c);
 
   return EXIT_SUCCESS;
 }

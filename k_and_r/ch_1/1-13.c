@@ -1,34 +1,36 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-#define IN_WORD 1
-#define OUT_WORD 0
-
 int main(void) {
-  int c;
-  int length = 0;
-  int state = OUT_WORD;
+  char c;
+  int in_word = 0;
+  int lengths[20];
+  int current_length = 0;
 
-  int wordLengths[15];
-
-  for (int i = 0; i < 15; ++i)
-    wordLengths[i] = 0;
+  for (int i = 1; i <= 20; ++i)
+    lengths[i] = 0;
 
   while ((c = getchar()) != EOF) {
-    if (state && c >= 'A' && c <= 'z') {
-      ++length;
-    } else if (!state && c >= 'A' && c <= 'z') {
-      state = IN_WORD;
-      ++length;
-    } else if (state && c == ' ') {
-      state = OUT_WORD;
-      ++wordLengths[length];
-      length = 0;
+    if (!in_word && isalnum(c)) {
+      current_length = 1;
+      in_word = 1;
+    } else if (in_word && !isalnum(c)) {
+      lengths[current_length]++;
+      in_word = 0;
+    } else {
+      ++current_length;
     }
   }
 
-  for (int i = 1; i < 15; ++i)
-    printf("Number of words of length %d: %d\n", i, wordLengths[i]);
+  printf("Length\n\n");
+  for (int i = 1; i <= 20; ++i) {
+    printf("%-8d", i);
+    for (int j = 0; j < lengths[i]; ++j)
+      printf("*");
+
+    putchar('\n');
+  }
 
   return EXIT_SUCCESS;
 }

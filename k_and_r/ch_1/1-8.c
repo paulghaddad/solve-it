@@ -1,22 +1,26 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 int main(void) {
-  int newlines = 0;
-  int blanks = 0;
-  int tabs = 0;
   int c;
+  long line_count = 0;
+  long tab_count = 0;
+  long blank_count = 0;
 
   while ((c = getchar()) != EOF) {
-    if (c == '\n')
-      ++newlines;
-    else if (c == 't')
-      ++tabs;
+    putchar(c);
+    if (c == '\n') 
+      ++line_count;
+    else if (c == '\t')
+      ++tab_count;
     else if (c == ' ')
-      ++blanks;
+      ++blank_count;
+
   }
 
-  printf("There are %d newlines, %d blanks, and %d tabs in the input\n", newlines, blanks, tabs);
+  printf("There are %ld newlines, %ld tabs and %ld spaces", line_count, tab_count, blank_count);
+
 
   return EXIT_SUCCESS;
 }
