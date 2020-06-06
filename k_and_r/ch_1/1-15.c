@@ -1,23 +1,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-float fahrenheitToCelsius(float temp);
+float f_to_c(float fahrenheit);
 
 int main(void) {
-  float fTemp;
+  float celsius;
 
-  printf("Fahrenheit\t\tCelsius\n");
+  float lower = 0;
+  float upper = 300.0;
 
-  for (fTemp = 0; fTemp <= 300; fTemp += 20) {
-    printf("%10.1f\t%15.1f\n", fTemp, fahrenheitToCelsius(fTemp));
+  for (float fahr = lower; fahr <= upper; fahr += 20) {
+    celsius = f_to_c(fahr);
+    printf("%.2f\t%.2f\n", fahr, celsius);
   }
 
   return EXIT_SUCCESS;
 }
 
-float fahrenheitToCelsius(float temp) {
-  float cTemp;
-  cTemp = 5.0 * (temp-32.0) / 9.0;
-
-  return cTemp;
+float f_to_c(float fahrenheit) {
+  return 5.0 * (fahrenheit-32.0) / 9.0;
 }

@@ -1,32 +1,38 @@
+#include <stdlib.h>
 #include <stdio.h>
-#define MAXLINE 1000
-#define MINLINE 80
 
-/* Write a program to print all input lines that are longer than MINLINE characters
- * */
+#define MAX_LINE 1000
+#define LINE_HURDLE 80
 
-int get_line(char line[], int maxline);
+int get_line(char line[]);
+void print_line(char line[]);
 
-main() {
-  int len;
-  char line[MAXLINE];
+int main(void) {
+  int line_length;
+  char current_line[MAX_LINE];
 
-  while ((len = get_line(line, MAXLINE)) > 0)
-    if (len > MINLINE)
-      printf("The line %s has more than %d characters\n", line, MINLINE);
+  while ((line_length = get_line(current_line)) > 0) {
+    if (line_length >= LINE_HURDLE)
+      print_line(current_line);
+  }
+
+  return EXIT_SUCCESS;
 }
 
-int get_line(char s[], int lim) {
-  int c, i;
+int get_line(char line[]) {
+  int c;
+  int i = 0;
 
-  for (i = 0; i< lim-1 && (c=getchar()) != EOF && c != '\n'; ++i)
-    s[i] = c;
-
-  if (c == '\n') {
-    s[i] = c; 
+  while ((c = getchar()) != EOF && (c != '\n')) {
+    line[i] = c;
     ++i;
   }
 
-  s[i] = '\0';
+  line[i] = '\0';
+
   return i;
+}
+
+void print_line(char line[]) {
+  printf("The current line is over 80 characters:\n\t%s", line);
 }
