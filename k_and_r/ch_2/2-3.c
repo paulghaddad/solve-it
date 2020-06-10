@@ -1,47 +1,49 @@
-/* Write the function htoi(s) which converts a string of hexadecimal digits
- * (including an optional 0x or 0X) into its equivalent integer values. The
- * allowable digits are 0 through 9, a through f, and A through F. */
-
-#include <stdio.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-int htoi(char s[]);
+#define base 16
 
-int main() {
-  printf("The integer value of %s is %d and expected value is %d\n", "ae0f\0", htoi("ae0f\0"), 0xae0f);
-  printf("The integer value of %s is %d and expected value is %d\n", "0xae0f", htoi("0xae0f"), 0xae0f);
-  printf("The integer value of %s is %d and expected value is %d\n", "0XAE0F", htoi("0XAE0F"), 0xae0f);
-  printf("The integer value of %s is %d and expected value is %d\n", "2x", htoi("2x"), -1);
+int htoi(char hex[]);
+
+int main(void) {
+  printf("Converting %s to decimal: %d\n", "0", htoi("0"));
+  printf("Converting %s to decimal: %d\n", "16", htoi("16"));
+  printf("Converting %s to decimal: %d\n", "4af", htoi("4af"));
+  printf("Converting %s to decimal: %d\n", "4AF", htoi("4AF"));
+  printf("Converting %s to decimal: %d\n", "0x4af", htoi("0x4af"));
+  printf("Converting %s to decimal: %d\n", "0X4af", htoi("0X4af"));
 
   return EXIT_SUCCESS;
 }
 
-int htoi(char hexValue[]) {
-  double decimalValue = 0;
-  int i;
 
-  if (tolower(hexValue[0]) == '0' && tolower(hexValue[1]) == 'x') {
+int htoi(char hex[]) {
+  int num_digits = strlen(hex);
+  int int_value = 0, i = 0;
+  int digit, ch;
+
+  // Optional preceding 0x or 0X
+  if (hex[0] == '0' && tolower(hex[1]) == 'x')
     i = 2;
-  } else {
-    i = 0;
+
+  for (; i < num_digits; ++i) {
+    ch = hex[i];
+
+    // Ensure digit is between 0-f
+    if (!isxdigit(ch))
+      exit(1);
+
+    if (isdigit(ch))
+      digit = ch - '0';
+    else
+      digit = tolower(ch) - 'a' + 10;
+
+    // Using multiplication
+    /* int_value = int_value*16 + digit; */
+    int_value = (int_value<<4) + digit;
   }
 
-  char digit;
-
-  while ((digit = tolower(hexValue[i]))) {
-    decimalValue *= 16;
-
-    if (isdigit(digit)) {
-      decimalValue += (digit - '0');
-    } else if (isalpha(digit) && digit >= 'a' && digit <= 'f') {
-      decimalValue += (digit - 'a' + 10);
-    } else {
-      return -1;
-    }
-
-    ++i;
-  }
-
-  return decimalValue;
+  return int_value;
 }

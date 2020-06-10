@@ -1,50 +1,36 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define MAX_LINE 100
-enum boolean { OUT_OF_WORD, IN_WORD };
+#define MAX_LINE 1000
 
-int getLine(char s[], int lim);
-
-int main(void) {
-  char line[MAX_LINE];
-  int lineLength = getLine(line, MAX_LINE);
-  printf("The length of the line is %d.\n", lineLength);
-
-
-  return EXIT_SUCCESS;
-}
-
-int getLine(char s[], int lim) {
-  int c;
-
-  /* for (i=0; i<lim-1 && (c=getchar()) != EOF && c != '\n'; ++i) { */
-  /*   s[i] = c; */
-  /* } */
+int main (void) {
+  enum { OUT_STRING, IN_STRING };
 
   int i = 0;
-  int state = IN_WORD;
+  char c;
+  int lim = MAX_LINE;
+  char s[MAX_LINE];
+  int process_string = IN_STRING;
 
-  while (state == IN_WORD) {
-    if (i >= lim-1)
-      state = OUT_OF_WORD;
+  while (process_string) {
+    if (i >= lim) {
+      process_string = OUT_STRING;
+    }
 
     c = getchar();
 
-    if (c == EOF)
-      state = OUT_OF_WORD;
-
-    if (c == '\n')
-      state = OUT_OF_WORD;
+    if (c == '\n') {
+      process_string = OUT_STRING;
+    } else if (c == EOF) {
+      process_string = OUT_STRING;
+    } else {
+      s[i] = c;
+    }
 
     ++i;
   }
 
-  if (c == '\n') {
-    s[i] = c;
-    ++i;
-  }
+  printf("The string is: %s\n", s);
 
-  s[i] = '\0';
-  return i;
+  return EXIT_SUCCESS;
 }
