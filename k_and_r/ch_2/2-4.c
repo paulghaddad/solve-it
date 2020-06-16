@@ -1,26 +1,37 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void deleteSqeeze(char s[], int c);
+void squeeze(char s1[], char s2[]);
 
 int main(void) {
-  char testString[] = "aeiou\0";
-  printf("Testing squeeze with the original string %s and the character %c: \n", testString, 'l');
-  deleteSqeeze(testString, 'e');
-  printf("%s\n", testString);
+  char s1[] = "abcde";
+  char s2[] = "abc";
+  squeeze(s1, s2);
+  printf("Calling squeeze on abcde with s2 abc results in %s.\n", s1);
 
   return EXIT_SUCCESS;
 }
 
-void deleteSqeeze(char s[], int c) {
-  int j = 0;
+#define FALSE 0
+#define TRUE 1
 
-  for (int i = 0; s[i] != '\0'; ++i) {
-    if (s[i] != c) {
-      s[j] = s[i];
-      ++j;
+void squeeze(char s1[], char s2[]) {
+  int i = 0, k = 0;
+
+  while (s1[i++] != '\0') {
+    int j = 0;
+    int matching_char = FALSE;
+
+    while (s2[j] != '\0') {
+      if (s1[i] == s2[j++]) {
+        matching_char = TRUE;
+        break;
+      }
     }
+
+    if (!matching_char)
+      s1[k++] = s1[i];
   }
 
-  s[j] = '\0';
+  s1[k] = '\0';
 }
