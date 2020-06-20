@@ -12,3 +12,4 @@ venv
 __pycache__
 .DS_Store
 modern_c/Ex_Files_Learning_C
+project-euler
