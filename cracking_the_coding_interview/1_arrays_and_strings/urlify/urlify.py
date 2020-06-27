@@ -11,15 +11,14 @@ def urlify(s, str_len):
     r_pt = str_len + num_spaces*2 - 1
     l_pt = str_len - 1
 
-    for i in range(l_pt, -1, -1):
+    while (r_pt > l_pt):
         if s_arr[l_pt] == ' ':
             s_arr[r_pt-2:r_pt+1] = "%", "2", "0"
-
-            l_pt -= 1
             r_pt -= 3
         else:
             s_arr[r_pt] = s_arr[l_pt]
-            l_pt -= 1
             r_pt -= 1
+
+        l_pt -= 1
 
     return ''.join(s_arr)
