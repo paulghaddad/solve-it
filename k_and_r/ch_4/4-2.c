@@ -7,14 +7,18 @@
 double atofloat(char s[]);
 
 int main(void) {
-  /* assert(atofloat("123.4") == 123.4); */
+  assert(atofloat("123.4") == 123.4);
   assert(atofloat("123.45e6") == 123.45e6);
-  /* assert(atofloat("123.45e-6") == 123.45e-6); */
+  assert(atofloat("123.45E6") == 123.45E6);
+  assert(atofloat("123.45e-6") == 123.45e-6);
+  assert(atofloat("123.45E-6") == 123.45E-6);
+
+  return EXIT_SUCCESS;
 }
 
 double atofloat(char s[]) {
   double val, power, exponent;
-  int i, sign;
+  int i, sign, exp_sign;
 
   for (i = 0; isspace(s[i]); i++)
     ;
@@ -38,14 +42,18 @@ double atofloat(char s[]) {
   if (s[i] == 'e' || s[i] == 'E')
     i++;
 
-  exponent = (s[i] == '-') ? 
+  if (s[i] == '-') {
+    exp_sign = -1;
+    i++;
+  } else
+    exp_sign = 1;
 
   for (exponent = 0.0; isdigit(s[i]); i++) {
     exponent = 10.0 * exponent + (s[i] - '0');
   }
 
-  if (exponent > 0)
-    val *= pow(10, exponent);
+  if (exponent)
+    val *= pow(10, exp_sign * exponent);
 
   return sign * val / power;
 }
