@@ -1,6 +1,6 @@
 import pytest
 
-# Time: O(n)
+# Time: O(1)
 # Space: O(1)
 
 def delete_node(node):
