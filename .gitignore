@@ -1,5 +1,6 @@
 # Ignore all
 *
+*.plist
 
 # Unignore all with extensions
 !*.*
