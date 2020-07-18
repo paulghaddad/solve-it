@@ -1,13 +1,20 @@
 import pytest
 
+# Time: O(n)
+# Space: O(n)
 
 def two_elements_add_to_target(arr, k):
-    for i, el in enumerate(arr):
-        for summand in range(i+1, len(arr)):
-            if el + summand == k:
-                return True
+    numbers_seen = set()
+
+    for el in arr:
+        complement = k - el
+        if complement in numbers_seen:
+            return True
+
+        numbers_seen.add(el)
 
     return False
+
 
 
 def test_two_elements_add_to_target_true():
