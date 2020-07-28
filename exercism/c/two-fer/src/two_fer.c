@@ -1,11 +1,6 @@
-#include <string.h>
+#include <stdio.h>
 #include "two_fer.h"
 
 void two_fer(char* buffer, const char* name) {
-  if (name) {
-    strcat(buffer, "One for ");
-    strcat(buffer, name);
-    strcat(buffer, ", one for me.");
-  } else
-    strcpy(buffer, "One for you, one for me.");
+  sprintf(buffer, "One for %s, one for me.", name ? name : "you");
 }
