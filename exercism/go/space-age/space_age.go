@@ -16,5 +16,6 @@ var orbital_periods = map[Planet]float64{
 }
 
 func Age(age float64, planet Planet) float64 {
-	return (age / SECONDS_TO_EARTH_YEAR) / orbital_periods[planet]
+	earth_years := age / SECONDS_TO_EARTH_YEAR
+	return earth_years / orbital_periods[planet]
 }
