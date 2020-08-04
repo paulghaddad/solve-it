@@ -1,2 +1,7 @@
 def leap_year(year):
-    return year % 400 == 0 or year % 4 == 0 and year % 100 != 0
+    div = divisible(year)
+
+    return div(400) or div(4) and not div(100)
+
+def divisible(year):
+    return lambda n: year % n == 0
