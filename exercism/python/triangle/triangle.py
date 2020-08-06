@@ -1,21 +1,22 @@
-EQUILATERAL_UNIQ_SIDES = 1
-ISOSCELES_UNIQ_SIDES = (1, 2)
-SCALENE_UNIQ_SIDES = 3
+UNIQUE_SIDES = {
+    'equilateral': 1,
+    'isosceles': (1, 2),
+    'scalene': 3,
+}
 
 
 def equilateral(sides):
-    return all(sides) and len(set(sides)) == EQUILATERAL_UNIQ_SIDES
+    return all(sides) and len(set(sides)) == UNIQUE_SIDES['equilateral']
 
 
 def isosceles(sides):
-    return valid_triangle(sides) and len(set(sides)) in ISOSCELES_UNIQ_SIDES
+    return valid_triangle(sides) and len(set(sides)) in UNIQUE_SIDES['isosceles']
 
 
 def scalene(sides):
-    return valid_triangle(sides) and len(set(sides)) == SCALENE_UNIQ_SIDES
+    return valid_triangle(sides) and len(set(sides)) == UNIQUE_SIDES['scalene']
 
 
 def valid_triangle(sides):
-    sorted_lengths = sorted(sides)
-
-    return all(sides) and sum(sorted_lengths[0:2]) >= max(sorted_lengths)
+    a, b, c = sorted(sides)
+    return all(sides) and a+b >= c
