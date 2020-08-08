@@ -11,7 +11,7 @@ int is_equilateral(triangle_t triangle) {
   if (!valid_triangle(triangle))
     return FALSE;
 
-  return triangle.a == triangle.b && triangle.b == triangle.c && triangle.a == triangle.c;
+  return triangle.a == triangle.b && triangle.b == triangle.c;
 }
 
 int is_isosceles(triangle_t triangle) {
