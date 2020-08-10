@@ -38,7 +38,7 @@ func ValidTriangle(a, b, c float64) bool {
 		return false
 	}
 
-	if !(a > 0 && b > 0 && c > 0) {
+	if a <= 0 || b <= 0 || c <= 0 {
 		return false
 	}
 
