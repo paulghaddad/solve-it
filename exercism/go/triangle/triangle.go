@@ -15,26 +15,21 @@ const (
 
 // Return type of triangle or if it's not a triangle
 func KindFromSides(a, b, c float64) Kind {
-	var k Kind
-
-	if !ValidTriangle(a, b, c) {
+	switch {
+	case !ValidTriangle(a, b, c):
 		return NaT
+	case a == b && b == c:
+		return Equ
+	case a == b || b == c || a == c:
+		return Iso
+	default:
+		return Sca
 	}
-
-	if a == b && b == c {
-		k = Equ
-	} else if a == b || b == c || a == c {
-		k = Iso
-	} else {
-		k = Sca
-	}
-
-	return k
 }
 
 // Return whether this is a valid triangle
 func ValidTriangle(a, b, c float64) bool {
-	if math.IsInf(a, 0) || math.IsInf(b, 0) || math.IsInf(c, 0) {
+	if math.IsInf(a+b+c, 0) || math.IsNaN(a+b+c) {
 		return false
 	}
 
@@ -42,7 +37,7 @@ func ValidTriangle(a, b, c float64) bool {
 		return false
 	}
 
-	if !(a+b >= c && b+c >= a && a+c >= b) {
+	if a+b < c || b+c < a || a+c < b {
 		return false
 	}
 
