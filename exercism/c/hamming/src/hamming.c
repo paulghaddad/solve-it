@@ -11,10 +11,8 @@ int compute(const char *lhs, const char *rhs) {
   if (strlen(lhs) != strlen(rhs))
     return -1;
 
-  while (*lhs) {
-    if (*lhs++ != *rhs++)
-      difference++;
-  }
+  while (*lhs)
+    difference += *lhs++ != *rhs++;
 
   return difference;
 }
