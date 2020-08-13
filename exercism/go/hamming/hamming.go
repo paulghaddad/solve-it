@@ -2,9 +2,10 @@ package hamming
 
 import "fmt"
 
+// Distance calculates the hamming distance for two DNA strands
 func Distance(a, b string) (int, error) {
 	if len(a) != len(b) {
-		return -1, fmt.Errorf("The lengths of the two strands are different: %d and %d", len(a), len(b))
+		return 0, fmt.Errorf("lengths of the two strands are different")
 	}
 
 	difference := 0
