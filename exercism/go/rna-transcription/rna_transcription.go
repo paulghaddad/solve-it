@@ -12,8 +12,8 @@ var DnaToRna = map[string]string{
 func ToRNA(dna string) string {
 	rna := ""
 
-	for _, nuc := range dna {
-		rna += DnaToRna[string(nuc)]
+	for i := 0; i < len(dna); i++ {
+		rna += DnaToRna[string(dna[i])]
 	}
 
 	return rna
