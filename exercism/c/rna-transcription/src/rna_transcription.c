@@ -1,7 +1,6 @@
 #include "rna_transcription.h"
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 char *to_rna(const char *dna) {
   int i, len = strlen(dna);
