@@ -11,10 +11,10 @@ char *count(const char *dna_strand) {
     return "";
   }
 
-  int a_cnt = 0, c_cnt = 0, g_cnt = 0, t_cnt = 0;
+  int nuc, a_cnt = 0, c_cnt = 0, g_cnt = 0, t_cnt = 0;
 
-  while (*dna_strand) {
-    switch (*dna_strand) {
+  while ((nuc = *dna_strand++) != '\0') {
+    switch (nuc) {
       case 'A':
         a_cnt++;
         break;
@@ -31,8 +31,6 @@ char *count(const char *dna_strand) {
         counts[0] = '\0';
         return counts;
     }
-
-    dna_strand++;
   }
 
   sprintf(counts, "A:%d C:%d G:%d T:%d", a_cnt, c_cnt, g_cnt, t_cnt);
