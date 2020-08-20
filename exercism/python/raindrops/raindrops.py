@@ -4,18 +4,17 @@ factor_to_sound = {
     7: 'Plong',
 }
 
+factors = (3, 5, 7)
+
+
+def add_sound(number, factor):
+    if number % factor == 0:
+        return factor_to_sound[factor]
+    else:
+        return ""
+
 
 def convert(number):
-    sound = ""
+    sounds = [add_sound(number, factor) for factor in factors]
 
-    if number % 3 == 0:
-        sound += factor_to_sound[3]
-    if number % 5 == 0:
-        sound += factor_to_sound[5]
-    if number % 7 == 0:
-        sound += factor_to_sound[7]
-
-    if sound:
-        return sound
-
-    return str(number)
+    return ''.join(sounds) or str(number)
