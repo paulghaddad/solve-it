@@ -13,9 +13,6 @@ def roman(number):
         return ''
 
     for ar, rom in arabic_to_roman.items():
-        if ar - number > 100 and ar - number < 100:
-            return 'C' + rom + roman(number-(ar-100))
-
         if 1000 - number > 0 and 1000 - number < 100:
             return 'CM' + roman(number-900)
 
@@ -28,7 +25,7 @@ def roman(number):
         if 50 - number > 0 and 50 - number < 10:
             return 'XL' + roman(number-40)
 
-        if ar - 1 == number:
+        if ar - number == 1:
             return 'I' + rom + roman(number-(ar-1))
 
         if number // ar > 0:
