@@ -13,16 +13,16 @@ def roman(number):
         return ''
 
     for ar, rom in arabic_to_roman.items():
-        if 1000 - number > 0 and 1000 - number < 100:
+        if number >= 900 and number < 1000:
             return 'CM' + roman(number-900)
 
-        if 500 - number > 0 and 500 - number < 100:
+        if number >= 400 and number < 500:
             return 'CD' + roman(number-400)
 
-        if 100 - number > 0 and 100 - number < 10:
+        if number >= 90 and number < 100:
             return 'XC' + roman(number-90)
 
-        if 50 - number > 0 and 50 - number < 10:
+        if number >= 40 and number < 50:
             return 'XL' + roman(number-40)
 
         if ar - number == 1:
