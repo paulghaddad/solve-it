@@ -1,6 +1,7 @@
 package romannumerals
 
 import (
+	"bytes"
 	"fmt"
 	"sort"
 )
@@ -29,12 +30,11 @@ var mappings = [13]arabicToRoman{
 // ToRomanNumeral converts an arabic number to a roman one
 func ToRomanNumeral(arabic int) (string, error) {
 	if arabic <= 0 || arabic > 3000 {
-		err := fmt.Errorf("The arabic numeral %d cannot be converted to a roman numeral", arabic)
-		return "", err
+		return "", fmt.Errorf("The arabic numeral %d cannot be converted to a roman numeral", arabic)
 	}
 	numberMappings := len(mappings)
 
-	roman := ""
+	var buffer bytes.Buffer
 	for arabic > 0 {
 		idx := sort.Search(numberMappings, func(i int) bool {
 			return arabic >= mappings[i].arabic
@@ -45,9 +45,9 @@ func ToRomanNumeral(arabic int) (string, error) {
 
 		}
 
-		roman += mappings[idx].roman
+		buffer.WriteString(mappings[idx].roman)
 		arabic -= mappings[idx].arabic
 	}
 
-	return roman, nil
+	return buffer.String(), nil
 }
