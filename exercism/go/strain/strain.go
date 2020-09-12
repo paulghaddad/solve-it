@@ -45,6 +45,10 @@ func (ints Ints) Discard(pred func(int) bool) Ints {
 
 // Keep filters Lists that meet the predicate
 func (lists Lists) Keep(pred func([]int) bool) Lists {
+	if lists == nil {
+		return nil
+	}
+
 	filtered := make(Lists, 0)
 
 	for _, list := range lists {
@@ -58,6 +62,10 @@ func (lists Lists) Keep(pred func([]int) bool) Lists {
 
 // Keep filters Strings that meet the predicate
 func (strings Strings) Keep(pred func(string) bool) Strings {
+	if strings == nil {
+		return strings
+	}
+
 	filtered := make(Strings, 0)
 
 	for _, val := range strings {
