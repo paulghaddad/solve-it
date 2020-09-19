@@ -1,5 +1,5 @@
 def latest(scores):
-    return scores[-1]
+    return scores[-1] if scores else None
 
 
 def personal_best(scores):
@@ -7,4 +7,4 @@ def personal_best(scores):
 
 
 def personal_top_three(scores):
-    return sorted(scores, reverse=True)[0:3]
+    return sorted(scores, reverse=True)[:3]
