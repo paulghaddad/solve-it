@@ -19,8 +19,4 @@ LETTER_VALUES = {
 
 
 def score(word):
-    total = 0
-    for letter in word:
-        total += LETTER_VALUES.get(letter.upper(), 1)
-
-    return total
+    return sum([LETTER_VALUES.get(letter.upper(), 1) for letter in word])
