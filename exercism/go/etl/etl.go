@@ -4,7 +4,8 @@ import (
 	"strings"
 )
 
-// Transform converts a map of scores to letters to a map of letters to scores
+// Transform converts a map of scrabble scores to letters to a map of letters to
+// scrablle scores
 func Transform(scoresToLetters map[int][]string) map[string]int {
 	lettersToScores := make(map[string]int)
 
