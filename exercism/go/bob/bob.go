@@ -48,11 +48,5 @@ func shouting(s string) bool {
 }
 
 func containsLetters(s string) bool {
-	for _, char := range s {
-		if unicode.IsLetter(char) {
-			return true
-		}
-	}
-
-	return false
+	return strings.IndexFunc(s, unicode.IsLetter) >= 0
 }
