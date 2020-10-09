@@ -1,14 +1,14 @@
 def cipher_text(plain_text):
     letters = [char for char in plain_text.lower() if char.isalnum()]
 
-    cols, rows = _rect_dimensions(len(letters))
+    cols, rows = _get_rect_dimensions(len(letters))
 
-    if cols*rows > len(letters):
-        for i in range(cols*rows - len(letters)):
+    spaces_needed = cols*rows - len(letters)
+    if spaces_needed:
+        for i in range(spaces_needed):
             letters.append(' ')
 
     rect = [letters[cols*i:cols*i+rows+1] for i in range(rows)]
-
 
     encoded_rect = [[rect[row][col] for row in range(rows)] for col in range(cols)]
 
@@ -22,7 +22,7 @@ def cipher_text(plain_text):
     return encoded
 
 
-def _rect_dimensions(num_elements):
+def _get_rect_dimensions(num_elements):
     r = 0
     c = 1
 
