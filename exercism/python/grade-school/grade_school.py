@@ -1,26 +1,19 @@
-from operator import itemgetter
+from collections import defaultdict
 
 
 class School:
     def __init__(self):
-        self.students = []
+        self._students = defaultdict(list)
 
     def add_student(self, name, grade):
-        self.students.append((name, grade))
+        self._students[grade].append(name)
 
     def roster(self):
-        return [
-            student[0]
-            for student
-            in sorted(self.students, key=itemgetter(1, 0))
-        ]
+        roster_by_grade = []
+        for grade in sorted(self._students.keys()):
+            roster_by_grade.extend(sorted(self._students[grade]))
+
+        return roster_by_grade
 
     def grade(self, grade_number):
-        students_in_grade = [
-            student[0]
-            for student
-            in self.students
-                if student[1] == grade_number
-        ]
-
-        return sorted(students_in_grade)
+        return sorted(self._students[grade_number])
