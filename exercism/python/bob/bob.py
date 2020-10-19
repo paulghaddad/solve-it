@@ -1,14 +1,22 @@
+SHOUTING_QUESTION_RESPONSE = "Calm down, I know what I'm doing!"
+SHOUTING_RESPONSE = 'Whoa, chill out!'
+QUESTION_RESPONSE = 'Sure.'
+SILENCE_RESPONSE = 'Fine. Be that way!'
+DEFAULT_RESPONSE = 'Whatever.'
+
+
 def response(hey_bob):
-    if hey_bob.isupper() and hey_bob.endswith('?'):
-        return "Calm down, I know what I'm doing!"
+    hey_bob = hey_bob.strip()
+    is_question = hey_bob.endswith('?')
+    is_shouting = hey_bob.isupper()
 
-    if hey_bob.isupper():
-        return 'Whoa, chill out!'
-
-    if hey_bob.rstrip().endswith('?'):
-        return 'Sure.'
-
-    if hey_bob.strip() == '':
-        return "Fine. Be that way!"
-
-    return 'Whatever.'
+    if is_shouting and is_question:
+        return SHOUTING_QUESTION_RESPONSE
+    elif is_shouting:
+        return SHOUTING_RESPONSE
+    elif is_question:
+        return QUESTION_RESPONSE
+    elif hey_bob == '':
+        return SILENCE_RESPONSE
+    else:
+        return DEFAULT_RESPONSE
