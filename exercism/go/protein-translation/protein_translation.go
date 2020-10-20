@@ -48,7 +48,7 @@ func FromCodon(codon string) (string, error) {
 func FromRNA(rna string) ([]string, error) {
 	var dna []string
 
-	for i := 0; i <= len(rna)-3; i += 3 {
+	for i := 0; i < len(rna); i += 3 {
 		codon := rna[i : i+3]
 
 		if isStopCodon(codon) {
@@ -56,11 +56,9 @@ func FromRNA(rna string) ([]string, error) {
 		}
 
 		polypeptide, err := FromCodon(codon)
-
 		if err != nil {
 			return dna, err
 		}
-
 		dna = append(dna, polypeptide)
 	}
 
