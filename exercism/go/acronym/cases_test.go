@@ -34,16 +34,16 @@ var stringTestCases = []acronymTest{
 		input:    "Rolling On The Floor Laughing So Hard That My Dogs Came Over And Licked Me",
 		expected: "ROTFLSHTMDCOALM",
 	},
-	// {
-	// 	input:    "Something - I made up from thin air",
-	// 	expected: "SIMUFTA",
-	// },
+	{
+		input:    "Something - I made up from thin air",
+		expected: "SIMUFTA",
+	},
 	{
 		input:    "Halley's Comet",
 		expected: "HC",
 	},
-	// {
-	// 	input:    "The Road _Not_ Taken",
-	// 	expected: "TRNT",
-	// },
+	{
+		input:    "The Road _Not_ Taken",
+		expected: "TRNT",
+	},
 }

@@ -6,14 +6,16 @@ import (
 	"strings"
 )
 
+var acronymWord = regexp.MustCompile("[a-zA-Z]+\\'?[a-zA-Z]*")
+
 // Abbreviate converts a full name to its acronym
 func Abbreviate(s string) string {
-	upperString := strings.ToUpper(s)
-	var letters []byte
+	acronymMatches := acronymWord.FindAllString(strings.ToUpper(s), -1)
+	var abbreviation []byte
 
-	for _, word := range regexp.MustCompile("[-_\\s]").Split(upperString, -1) {
-		letters = append(letters, word[0])
+	for _, word := range acronymMatches {
+		abbreviation = append(abbreviation, word[0])
 	}
 
-	return string(letters)
+	return string(abbreviation)
 }
