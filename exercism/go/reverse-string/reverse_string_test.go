@@ -11,6 +11,7 @@ func TestReverse(t *testing.T) {
 			t.Fatalf("FAIL: %s(%s)\nExpected: %q\nActual: %q",
 				testCase.description, testCase.input, testCase.expected, res)
 		}
+
 		t.Logf("PASS: %s", testCase.description)
 	}
 }

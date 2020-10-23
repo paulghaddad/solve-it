@@ -1,17 +1,29 @@
 package reverse
 
-import "unicode/utf8"
+import "bytes"
+
+// Original Solution
+// func Reverse(s string) string {
+// 	strLength := utf8.RuneCountInString(s)
+// 	reversed := make([]rune, strLength)
+//
+// 	i := strLength - 1
+// 	for _, char := range s {
+// 		reversed[i] = char
+// 		i--
+// 	}
+//
+// 	return string(reversed)
+// }
 
 // Reverse returns a new string with the characters of s in reverse order
 func Reverse(s string) string {
-	strLength := utf8.RuneCountInString(s)
-	reversed := make([]rune, strLength)
+	var reversed bytes.Buffer
+	chars := []rune(s)
 
-	i := strLength - 1
-	for _, char := range s {
-		reversed[i] = char
-		i--
+	for i := len(chars) - 1; i >= 0; i-- {
+		reversed.WriteRune(chars[i])
 	}
 
-	return string(reversed)
+	return reversed.String()
 }
