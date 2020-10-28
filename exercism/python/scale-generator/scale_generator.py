@@ -9,7 +9,7 @@ class Scale:
 
     def __init__(self, tonic):
         self.tonic = tonic
-        self.scale = self._get_scale_by_tonic(self.tonic)
+        self.scale = self._get_scale_by_tonic()
         self.index = self.scale.index(self.tonic.capitalize())
 
     def chromatic(self):
@@ -26,7 +26,7 @@ class Scale:
 
         return scale
 
-    def _get_scale_by_tonic(self, tonic):
+    def _get_scale_by_tonic(self):
         if self.tonic in self.DIATONIC_SHARPS:
             return self.CHROMATIC_SHARPS
         else:
