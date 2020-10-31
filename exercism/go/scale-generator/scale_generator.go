@@ -3,8 +3,8 @@ package scale
 import "strings"
 
 var (
-	sharps          = []string{"C", "G", "f#", "a", "A"}
-	intervals       = map[rune]int{'m': 1, 'M': 2, 'A': 3}
+	sharps          = []string{"A", "B", "C", "D", "E", "G", "F#", "f#", "a", "e", "b", "c#", "g#", "d#"}
+	intervals       = " mMA"
 	chromaticSharps = []string{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"}
 	chromaticFlats  = []string{"F", "Gb", "G", "Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E"}
 )
@@ -20,9 +20,11 @@ func Scale(tonic, interval string) []string {
 	diatonic := make([]string, len(interval))
 
 	i := startPosition(chromatic, strings.Title(tonic))
+
+	lenChromatic := len(chromatic)
 	for j, space := range interval {
-		diatonic[j] = chromatic[i%len(chromatic)]
-		i += intervals[space]
+		diatonic[j] = chromatic[i%lenChromatic]
+		i += strings.IndexRune(intervals, space)
 	}
 	return diatonic
 }
