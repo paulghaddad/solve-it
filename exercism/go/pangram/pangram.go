@@ -7,22 +7,13 @@ import (
 
 // IsPangram determines if a string contains all the lowercase letters
 func IsPangram(input string) bool {
-	letters := make(map[rune]bool)
-	for char := 'a'; char <= 'z'; char++ {
-		letters[char] = false
-	}
+	letters := 0x0
 
 	for _, char := range strings.ToLower(input) {
 		if unicode.IsLower(char) {
-			letters[char] = true
+			letters |= 1 << (char - 'a')
 		}
 	}
 
-	for _, present := range letters {
-		if present == false {
-			return false
-		}
-	}
-
-	return true
+	return 0x3ffffff == letters
 }
