@@ -1,12 +1,6 @@
-from collections import Counter
-
 def find_anagrams(word, candidates):
-    lower_word = word.lower()
-    letter_counts = Counter(lower_word)
+    return [candidate for candidate in candidates if _is_anagram(word, candidate)]
 
-    return [
-        candidate
-        for candidate in candidates
-            if lower_word != candidate.lower()
-            and letter_counts == Counter(candidate.lower())
-    ]
+
+def _is_anagram(word1, word2):
+    return word1.lower() != word2.lower() and sorted(word1.lower()) == sorted(word2.lower())
