@@ -6,8 +6,7 @@ import (
 )
 
 // Detect returns the anagrams for a subject word from a list of candidate words
-func Detect(subject string, candidates []string) []string {
-	anagrams := make([]string, 0)
+func Detect(subject string, candidates []string) (anagrams []string) {
 	lowerSubject := strings.ToLower(subject)
 	sortedSubject := sortLetters(lowerSubject)
 
