@@ -1,29 +1,27 @@
 package wordcount
 
 import (
-	"regexp"
 	"strings"
+	"unicode"
 )
 
 // Frequency maps words to their counts
 type Frequency map[string]int
 
-const wordRegex = `\w+(\'\w+)?`
-
 // WordCount takes in an input string and produces a map of word count
 // frequencies
 func WordCount(input string) Frequency {
-	wordRegex := regexp.MustCompile(wordRegex)
+	fieldFn := func(c rune) bool {
+		return !unicode.IsLetter(c) && !unicode.IsDigit(c) && c != '\''
+	}
 
 	counts := make(Frequency)
-	for _, word := range wordRegex.FindAllString(strings.ToLower(input), -1) {
-		_, ok := counts[word]
-
-		if ok {
-			counts[word]++
-		} else {
-			counts[word] = 1
+	for _, word := range strings.FieldsFunc(strings.ToLower(input), fieldFn) {
+		if strings.HasPrefix(word, "'") && strings.HasSuffix(word, "'") {
+			word = strings.Trim(word, "'")
 		}
+
+		counts[word]++
 	}
 
 	return counts
