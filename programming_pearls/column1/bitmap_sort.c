@@ -1,13 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define INT_SIZE 32
+
 int main(void) {
   // Phase 1: Initialize the set to empty
   int n = 1000000;
-  int bit[n];
+  int bitmap[n/INT_SIZE];
 
-  for (int i = 0; i < n; i++) {
-    bit[i] = 0;
+  for (int i = 0; i < n/INT_SIZE; i++) {
+    bitmap[i] = 0;
   }
 
   // Phase 2: Read in file and insert present elements into the set
@@ -22,10 +24,13 @@ int main(void) {
   }
 
   while (fscanf(fp_input, "%d", &num) != EOF) {
-    bit[num] = 1;
+    int bitmap_ind = num / INT_SIZE;
+    unsigned int flag = 1;
+    bitmap[bitmap_ind] |= flag << num % INT_SIZE;
   }
 
   fclose(fp_input);
+
 
   // Phase 3: Write sorted output
   FILE *fp_output;
@@ -36,8 +41,12 @@ int main(void) {
     printf("Error opening file.\n");
   }
 
-  for (int i = 0; i < n; i++) {
-    fprintf(fp_output, "%d\n", bit[i]);
+  for (int i = 0; i < n/INT_SIZE; i++) {
+    for (int j = 0; j < INT_SIZE; j++) {
+      int bitmap_ind = num / INT_SIZE;
+      unsigned int flag = 1;
+      fprintf(fp_output, "%d\n", (bitmap[bitmap_ind] & (flag << j)) > 0 );
+    }
   }
 
   fclose(fp_output);
