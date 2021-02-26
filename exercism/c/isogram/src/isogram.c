@@ -11,7 +11,7 @@ bool is_isogram(const char phrase[]) {
 
   for (int i = 0; phrase[i] != '\0'; ++i) {
     int letter = phrase[i];
-    if (letter < 'A' || letter > 'z')
+    if (!isalpha(letter))
       continue;
 
     int bitPosition = 1 << (tolower(letter) - 'a');
