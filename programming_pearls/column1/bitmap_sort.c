@@ -31,7 +31,6 @@ int main(void) {
 
   fclose(fp_input);
 
-
   // Phase 3: Write sorted output
   FILE *fp_output;
 
