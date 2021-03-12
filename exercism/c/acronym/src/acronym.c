@@ -4,13 +4,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_ABBREVIATION_LENGTH 10
-
 char *abbreviate(const char *phrase) {
   if (phrase == NULL || strncmp(phrase, "", 1) == 0)
     return NULL;
 
-  char* abbreviation = (char*) malloc(sizeof(char) * MAX_ABBREVIATION_LENGTH);
+  char* abbreviation = (char*) malloc(sizeof(char) * (strlen(phrase)+1));
   if (abbreviation == NULL)
     return NULL;
 
@@ -21,12 +19,10 @@ char *abbreviate(const char *phrase) {
     char prev = *(phrase + i - 1);
     char curr = *(phrase + i);
 
-    if (!isalpha(curr))
-      continue;
-
-    if (prev == ' ' || prev == '-' || prev == '_') {
-      *(abbreviation + j) = toupper(*(phrase + i));
-      j++;
+    if (isalpha(curr)) {
+      if (prev == ' ' || prev == '-' || prev == '_') {
+        *(abbreviation + j++) = toupper(*(phrase + i));
+      }
     }
   }
 
