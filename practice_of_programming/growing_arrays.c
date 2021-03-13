@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef struct Nameval Nameval;
 struct Nameval {
@@ -17,7 +18,6 @@ enum { NVINIT = 1, NVGROW = 2 };
 
 int addname(Nameval newname);
 int delname(char *name);
-
 
 // add new name and value to nvtab
 int addname(Nameval newname) {
@@ -44,7 +44,24 @@ int addname(Nameval newname) {
 
 
 // remove first matching nameval from nvtab
-/* int delname)char *name); */
+int delname(char *name) {
+  // first position of item to be deleted
+  for (int i = 0; i < nvtab.nval; i++) {
+
+
+    if (strcmp(nvtab.nameval[i].name, name) == 0) {
+      printf("Match found! Item %d\n", i);
+
+
+      memmove(nvtab.nameval+i, nvtab.nameval+i+1, (nvtab.nval - i - 1) * sizeof(Nameval));
+      nvtab.nval--;
+      return 1;
+    }
+
+  }
+
+  return 0;
+}
 
 int main(void) {
   struct Nameval item0 = {"Item 0", 0};;
@@ -55,6 +72,13 @@ int main(void) {
 
   struct Nameval item2 = {"Item 2", 2};;
   addname(item2);
+
+  for (int i = 0; i < nvtab.nval; i++) {
+    int value = nvtab.nameval[i].value;
+    printf("Item: %d\n", value);
+  }
+
+  delname("Item 1");
 
   for (int i = 0; i < nvtab.nval; i++) {
     int value = nvtab.nameval[i].value;
