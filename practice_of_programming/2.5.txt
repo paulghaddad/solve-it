@@ -1,0 +1,10 @@
+The biggest concern on whether to realloc or not after a deletion is how
+frequent deletions will be compared to insertions, and their respective timing.
+
+In the case where we have relatively random orderings of insertions and
+deletions, holes created by deleted items will subsequently be filled by new
+elements. The case where this breaks down is if we have a large number of
+insertions followed by a number of deletions, but no further insertions. Then
+we could potentially have a large number of holes that will never be filled.
+
+In most cases, deletions without reallocating memory would seem to be okay.
