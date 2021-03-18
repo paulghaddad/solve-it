@@ -37,8 +37,8 @@ int addname(Nameval newname) {
   }
 
   // Find first deleted or empty hole to place new node into
-  for (int i = 0; i < nvtab.nval+1; i++) {
-    if (nvtab.nameval[i].value == -1) {
+  for (int i = 0; i < nvtab.nval; i++) {
+    if (nvtab.nameval[i].name == NULL) {
       nvtab.nameval[i] = newname;
       return nvtab.nval; // no need to increment nval because we're reusing a hole
     }
@@ -56,8 +56,7 @@ int delname(char *name) {
 
     // mark deleted node
     if (strcmp(nvtab.nameval[i].name, name) == 0) {
-      nvtab.nameval[i].value = -1;
-      nvtab.nameval[i].name = "Deleted";
+      nvtab.nameval[i].name = NULL;
 
       return 1;
     }
@@ -69,9 +68,7 @@ int delname(char *name) {
 
 int main(void) {
   struct Nameval item0 = {"Item 0", 0};;
-  addname(item0);
-
-  struct Nameval item1 = {"Item 1", 1};;
+  addname(item0); struct Nameval item1 = {"Item 1", 1};;
   addname(item1);
 
   struct Nameval item2 = {"Item 2", 2};;
@@ -82,6 +79,7 @@ int main(void) {
     printf("Item: %d\n", value);
   }
 
+  printf("Deleting item 1\n");
   delname("Item 1");
 
   for (int i = 0; i < nvtab.nval; i++) {
@@ -90,6 +88,7 @@ int main(void) {
     printf("Item: %s %d\n", name, value);
   }
 
+  printf("Adding item 3\n");
   struct Nameval item3 = {"Item 3", 3};;
   addname(item3);
 
