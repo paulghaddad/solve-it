@@ -27,18 +27,21 @@ func Valid(input string) bool {
 	}
 
 	// double every second number from right
-	for i := len(digits) - 2; i >= 0; i -= 2 {
-		product := 2 * digits[i]
-		if product > 9 {
-			product -= 9
+	// sum all the numbers
+	sum := 0
+	j := 0
+	for i := len(digits) - 1; i >= 0; i-- {
+		if j%2 == 1 {
+			product := 2 * digits[i]
+			if product > 9 {
+				product -= 9
+			}
+
+			digits[i] = product
 		}
 
-		digits[i] = product
-	}
-
-	sum := 0
-	for _, digit := range digits {
-		sum += digit
+		sum += digits[i]
+		j++
 	}
 
 	return sum%10 == 0
