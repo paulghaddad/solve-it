@@ -7,17 +7,15 @@ import (
 
 // Valid returns whether a given number is a valid Luhn checksum
 func Valid(input string) bool {
-	if utf8.RuneCountInString(strings.TrimSpace(input)) <= 1 {
+	input = strings.ReplaceAll(input, " ", "")
+	if utf8.RuneCountInString(input) <= 1 {
 		return false
 	}
 
 	sum := 0
-	for i, j := len(input)-1, 0; i >= 0; i-- {
+	double := false
+	for i := len(input) - 1; i >= 0; i-- {
 		char := input[i]
-
-		if char == ' ' {
-			continue
-		}
 
 		if char < '0' || char > '9' {
 			return false
@@ -25,17 +23,17 @@ func Valid(input string) bool {
 
 		digit := int(char - '0')
 
-		if j%2 == 1 {
+		if double {
 			digit <<= 1
 			if digit > 9 {
 				digit -= 9
 			}
 			sum += digit
+			double = false
 		} else {
 			sum += digit
+			double = true
 		}
-
-		j++
 	}
 
 	return sum%10 == 0
