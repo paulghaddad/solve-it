@@ -2,21 +2,19 @@ package luhn
 
 import (
 	"strings"
-	"unicode/utf8"
 )
 
 // Valid returns whether a given number is a valid Luhn checksum
 func Valid(input string) bool {
 	input = strings.ReplaceAll(input, " ", "")
-	if utf8.RuneCountInString(input) <= 1 {
+	if len(input) <= 1 {
 		return false
 	}
 
 	sum := 0
-	double := false
-	for i := len(input) - 1; i >= 0; i-- {
-		char := input[i]
+	double := len(input)%2 == 0
 
+	for _, char := range input {
 		if char < '0' || char > '9' {
 			return false
 		}
@@ -24,16 +22,14 @@ func Valid(input string) bool {
 		digit := int(char - '0')
 
 		if double {
-			digit <<= 1
+			digit *= 2
 			if digit > 9 {
 				digit -= 9
 			}
-			sum += digit
-			double = false
-		} else {
-			sum += digit
-			double = true
 		}
+
+		sum += digit
+		double = !double
 	}
 
 	return sum%10 == 0
