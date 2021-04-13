@@ -5,13 +5,9 @@ package summultiples
 func SumMultiples(limit int, divisors ...int) int {
 	sum := 0
 
-	for num := 0; num < limit; num++ {
+	for num := 1; num < limit; num++ {
 		for _, divisor := range divisors {
-			if divisor == 0 {
-				continue
-			}
-
-			if isMultiple(num, divisor) {
+			if divisor != 0 && isMultiple(num, divisor) {
 				sum += num
 				break
 			}
