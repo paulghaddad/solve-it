@@ -1,6 +1,8 @@
 package pythagorean
 
-import "math"
+import (
+	"math"
+)
 
 // Triplet is a slice of three values denoting a Pythogorean Triplet
 type Triplet [3]int
@@ -12,9 +14,10 @@ func Range(min, max int) []Triplet {
 
 	for a := min; a <= max; a++ {
 		for b := a + 1; b <= max; b++ {
-			c := int(math.Sqrt(math.Pow(float64(a), 2.0) + math.Pow(float64(b), 2.0)))
+			sqr := a*a + b*b
+			c := int(math.Sqrt(float64(sqr)))
 
-			if c > min && c <= max && isTriplet(a, b, c) {
+			if c*c == sqr && c > min && c <= max {
 				triplets = append(triplets, Triplet{a, b, c})
 			}
 		}
@@ -37,8 +40,4 @@ func Sum(p int) []Triplet {
 	}
 
 	return triplets
-}
-
-func isTriplet(a, b, c int) bool {
-	return a < b && b < c && a*a+b*b == c*c
 }
