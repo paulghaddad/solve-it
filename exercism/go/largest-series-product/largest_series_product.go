@@ -13,17 +13,25 @@ func LargestSeriesProduct(digits string, span int) (int, error) {
 		return 0, fmt.Errorf("span must be greater than zero")
 	}
 
-	largest := 0
-	for i := 0; i < len(digits)+1-span; i++ {
-		product := 1
-		for j := 0; j < span; j++ {
-			digit := digits[i+j] - '0'
-			if digit < 0 || digit > 9 {
-				return 0, fmt.Errorf("digits input must only contain digits")
-			}
+	largest := 1
+	product := 1
+	for i := 0; i <= len(digits)+1-span; i++ {
+		digit := int(digits[i] - '0')
+		fmt.Println(digit)
 
-			product *= int(digit)
+		if i < span {
+			product *= digit
+			largest = product
+			continue
 		}
+
+		oldDigit := int(digits[i-span] - '0')
+		if oldDigit == 0 {
+			product = 1
+			continue
+		}
+		product /= oldDigit
+		product *= digit
 
 		if product > largest {
 			largest = product
