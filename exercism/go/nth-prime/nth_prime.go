@@ -10,7 +10,6 @@ func Nth(n int) (int, bool) {
 	num := 2
 
 	for primeCount := 0; primeCount < n; num++ {
-
 		// is num divisible by any preceding prime?
 		if isPrime(primes, num) == true {
 			primes = append(primes, num)
