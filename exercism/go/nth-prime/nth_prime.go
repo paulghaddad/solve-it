@@ -1,43 +1,33 @@
 package prime
 
-import "math"
-
 // Nth returns the nth prime number
 func Nth(n int) (int, bool) {
 	if n == 0 {
 		return 0, false
 	}
 
-	primeCount := 0
-	i := 2
-	for {
-		if isPrime(i) {
+	primes := []int{}
+	num := 2
+
+	for primeCount := 0; primeCount < n; num++ {
+
+		// is num divisible by any preceding prime?
+		if isPrime(primes, num) == true {
+			primes = append(primes, num)
 			primeCount++
 		}
-
-		if primeCount == n {
-			break
-		}
-
-		i++
 	}
 
-	return i, true
+	return num - 1, true
 }
 
-// using primality test that max factor for a number is its square root
-func isPrime(n int) bool {
-	if n == 2 {
+func isPrime(primes []int, num int) bool {
+	if num == 2 {
 		return true
 	}
 
-	if n%2 == 0 {
-		return false
-	}
-
-	i := int(math.Floor(math.Sqrt(float64(n))))
-	for ; i > 1; i-- {
-		if n%i == 0 {
+	for _, prime := range primes {
+		if num%prime == 0 {
 			return false
 		}
 	}
