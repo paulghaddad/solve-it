@@ -2,41 +2,98 @@ package lsproduct
 
 import "fmt"
 
-// LargestSeriesProduct returns the largest product for a continguous series of
-// digits
+/*
+ Time: O(n)
+ Space: O(1)
+*/
+
 func LargestSeriesProduct(digits string, span int) (int, error) {
-	if span > len(digits) {
-		return 0, fmt.Errorf("span must be smaller than string length")
+	if len(digits) < span {
+		return -1, fmt.Errorf("span must be smaller than string length")
+	}
+
+	if len(digits) == 0 {
+		return 1, nil
 	}
 
 	if span < 0 {
-		return 0, fmt.Errorf("span must be greater than zero")
+		return -1, fmt.Errorf("span must be greater than zero")
 	}
 
-	largest := 1
-	product := 1
-	for i := 0; i <= len(digits)+1-span; i++ {
-		digit := int(digits[i] - '0')
-		fmt.Println(digit)
+	if span == 0 {
+		return 1, nil
+	}
 
-		if i < span {
-			product *= digit
-			largest = product
+	var i, product, largestProduct int
+	needProduct := true
+
+MAIN:
+	for i < len(digits) {
+		digit, err := getDigit(digits, i)
+		if err != nil {
+			return -1, err
+		}
+
+		// skip over 0s and reset product
+		if digit == 0 {
+			needProduct = true
+			product = 0
+			i++
 			continue
 		}
 
-		oldDigit := int(digits[i-span] - '0')
-		if oldDigit == 0 {
-			product = 1
+		if needProduct == true {
+			// find the product of three non-zero digits
+			for j := 0; j < span && i-j+span-1 < len(digits); j++ {
+				digit, err := getDigit(digits, i)
+				if err != nil {
+					return -1, err
+				}
+
+				if digit == 0 {
+					product = 0
+					i++
+					goto MAIN
+				}
+
+				if product == 0 {
+					product = 1
+				}
+
+				product *= digit
+				i++
+			}
+
+			if product > largestProduct {
+				largestProduct = product
+			}
+			needProduct = false
 			continue
 		}
-		product /= oldDigit
+
+		digitToRemove, err := getDigit(digits, i-span)
+		if err != nil {
+			return -1, err
+		}
+		// calculate current product of span
+		product /= digitToRemove
 		product *= digit
 
-		if product > largest {
-			largest = product
+		if product > largestProduct {
+			largestProduct = product
 		}
+
+		i++
 	}
 
-	return largest, nil
+	return largestProduct, nil
+}
+
+func getDigit(digits string, i int) (int, error) {
+	digit := int(digits[i] - '0')
+	if digit < 0 || digit > 9 {
+		return -1, fmt.Errorf("digits input must only contain digits")
+	}
+
+	return digit, nil
 }
