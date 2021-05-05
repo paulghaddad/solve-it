@@ -19,5 +19,6 @@ func Square(n int) (uint64, error) {
 
 // Total returns the total number of grains on the largest square
 func Total() uint64 {
-	return 0xFFFFFFFFFFFFFFFF // all the bits from 0 to 63 are all 1s
+	var numGrains uint64
+	return ^numGrains
 }
