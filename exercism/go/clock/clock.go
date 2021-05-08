@@ -2,42 +2,34 @@ package clock
 
 import "fmt"
 
+const (
+	minPerHour = 60
+	minPerDay  = 1440
+)
+
 // Clock represents the minutes of time
 type Clock struct {
-	hour, minute int
+	minutes int
 }
 
 // New constructs a new Clock type
 func New(hour, minute int) Clock {
-	if minute >= 60 || minute <= -60 {
-		hour += minute / 60
-		minute = minute % 60
-	}
+	totalMinutes := hour*minPerHour + minute
+	totalMinutes24HourClock := (totalMinutes%minPerDay + minPerDay) % minPerDay
 
-	if minute > -60 && minute < 0 {
-		hour = hour - 1
-		minute = 60 + minute
-	}
-
-	hour = hour % 24
-
-	if hour < 0 {
-		hour = 24 + hour
-	}
-
-	return Clock{hour, minute}
+	return Clock{totalMinutes24HourClock}
 }
 
 func (c Clock) String() string {
-	return fmt.Sprintf("%02d:%02d", c.hour, c.minute)
+	return fmt.Sprintf("%02d:%02d", c.minutes/minPerHour, c.minutes%minPerHour)
 }
 
 // Add adds time to an existing clock
 func (c Clock) Add(min int) Clock {
-	return New(c.hour, c.minute+min)
+	return New(c.minutes/minPerHour, c.minutes%minPerHour+min)
 }
 
 // Subtract subtracts time from an existing clock
 func (c Clock) Subtract(min int) Clock {
-	return New(c.hour, c.minute-min)
+	return New(c.minutes/minPerHour, c.minutes%minPerHour-min)
 }
