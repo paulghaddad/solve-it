@@ -2,6 +2,7 @@ package armstrong
 
 import (
 	"math"
+	"strconv"
 )
 
 // IsNumber determines whether a number is an Armstrong Number
@@ -10,16 +11,11 @@ func IsNumber(num int) bool {
 		return true
 	}
 
-	var numDigits, armstrongSum int
-
-	for base := num; base > 0; numDigits++ {
-		base /= 10
-	}
+	var armstrongSum int
+	numDigits := len(strconv.Itoa(num))
 
 	for base := num; base > 0; base /= 10 {
 		digit := base % 10
-		// base /= 10
-
 		armstrongSum += int(math.Pow(float64(digit), float64(numDigits)))
 	}
 
