@@ -6,23 +6,25 @@ import "strings"
 func Atbash(in string) string {
 	var out strings.Builder
 	var i int
+	var enc byte
 
 	for _, ch := range in {
 		lower := ch | 0b0100000
 
 		switch {
-		case lower < 'a' || lower > 'z':
-			continue
 		case lower > '0' && lower < '9':
-			out.WriteByte(byte(lower))
+			enc = byte(lower)
+		case lower >= 'a' && lower <= 'z':
+			enc = byte('z'-lower) + 'a'
 		default:
-			if i > 0 && i%5 == 0 {
-				out.WriteByte(' ')
-			}
-
-			out.WriteByte(byte('z'-lower) + 'a')
+			continue
 		}
 
+		if i > 0 && i%5 == 0 {
+			out.WriteByte(' ')
+		}
+
+		out.WriteByte(enc)
 		i++
 	}
 
