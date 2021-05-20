@@ -108,37 +108,37 @@ var successTestCases = []struct {
 			},
 		},
 	},
-	// {
-	// 	name: "unbalanced tree",
-	// 	input: []Record{
-	// 		{ID: 5, Parent: 2},
-	// 		{ID: 3, Parent: 2},
-	// 		{ID: 2, Parent: 0},
-	// 		{ID: 4, Parent: 1},
-	// 		{ID: 1, Parent: 0},
-	// 		{ID: 0},
-	// 		{ID: 6, Parent: 2},
-	// 	},
-	// 	expected: &Node{
-	// 		ID: 0,
-	// 		Children: []*Node{
-	// 			{
-	// 				ID: 1,
-	// 				Children: []*Node{
-	// 					{ID: 4},
-	// 				},
-	// 			},
-	// 			{
-	// 				ID: 2,
-	// 				Children: []*Node{
-	// 					{ID: 3},
-	// 					{ID: 5},
-	// 					{ID: 6},
-	// 				},
-	// 			},
-	// 		},
-	// 	},
-	// },
+	{
+		name: "unbalanced tree",
+		input: []Record{
+			{ID: 5, Parent: 2},
+			{ID: 3, Parent: 2},
+			{ID: 2, Parent: 0},
+			{ID: 4, Parent: 1},
+			{ID: 1, Parent: 0},
+			{ID: 0},
+			{ID: 6, Parent: 2},
+		},
+		expected: &Node{
+			ID: 0,
+			Children: []*Node{
+				{
+					ID: 1,
+					Children: []*Node{
+						{ID: 4},
+					},
+				},
+				{
+					ID: 2,
+					Children: []*Node{
+						{ID: 3},
+						{ID: 5},
+						{ID: 6},
+					},
+				},
+			},
+		},
+	},
 }
 
 var failureTestCases = []struct {
@@ -237,17 +237,17 @@ func TestMakeTreeSuccess(t *testing.T) {
 	}
 }
 
-// func TestMakeTreeFailure(t *testing.T) {
-// 	for _, tt := range failureTestCases {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			actual, err := Build(tt.input)
-// 			if err == nil {
-// 				t.Fatalf("Build for test case %q returned %s but was expected to fail.",
-// 					tt.name, actual)
-// 			}
-// 		})
-// 	}
-// }
+func TestMakeTreeFailure(t *testing.T) {
+	for _, tt := range failureTestCases {
+		t.Run(tt.name, func(t *testing.T) {
+			actual, err := Build(tt.input)
+			if err == nil {
+				t.Fatalf("Build for test case %q returned %s but was expected to fail.",
+					tt.name, actual)
+			}
+		})
+	}
+}
 
 func shuffleRecords(records []Record) []Record {
 	gen := rand.New(rand.NewSource(42))
