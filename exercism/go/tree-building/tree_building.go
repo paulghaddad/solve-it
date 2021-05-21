@@ -27,15 +27,6 @@ func Build(records []Record) (*Node, error) {
 		return records[i].ID < records[j].ID
 	})
 
-	// check for integrity of tree
-	for i := 0; i < len(records)-1; i++ {
-		step := records[i+1].ID - records[i].ID
-
-		if step != 1 {
-			return nil, fmt.Errorf("duplicate nodes")
-		}
-	}
-
 	// Create tree root
 	rootRecord := records[0]
 	rootNode := Node{ID: rootRecord.ID}
@@ -51,10 +42,18 @@ func Build(records []Record) (*Node, error) {
 		return nil, fmt.Errorf("root node has a parent")
 	}
 
-	// check for any cycles
+	// check for integrity of tree and cycles
 	seenIDs := make(map[int]bool)
 	seenIDs[rootRecord.ID] = true
-	for _, record := range records[1:] {
+	for i, record := range records {
+		if i < len(records)-1 {
+			step := records[i+1].ID - record.ID
+
+			if step != 1 {
+				return nil, fmt.Errorf("duplicate nodes")
+			}
+		}
+
 		if _, found := seenIDs[record.Parent]; found == false {
 			return nil, fmt.Errorf("cycle present")
 		}
