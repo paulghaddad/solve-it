@@ -31,56 +31,33 @@ func Build(records []Record) (*Node, error) {
 	rootRecord := records[0]
 	rootNode := Node{ID: rootRecord.ID}
 
+	// Create map of Node pointers
+	nodes := make(map[int]*Node)
+	nodes[rootRecord.ID] = &rootNode
+
 	// make sure there is a root node
-	parent := findParent(&rootNode, rootRecord.Parent)
-	if parent == nil {
+	if _, found := nodes[rootRecord.Parent]; !found {
 		return nil, fmt.Errorf("no root node")
 	}
 
-	// make sure the root node doesn't have a parent
-	if rootRecord.Parent > rootRecord.ID {
-		return nil, fmt.Errorf("root node has a parent")
-	}
+	// check for integrity of tree and cycles and build tree
+	for i := 1; i < len(records); i++ {
+		record := records[i]
+		step := record.ID - records[i-1].ID
 
-	// check for integrity of tree and cycles
-	seenIDs := make(map[int]bool)
-	seenIDs[rootRecord.ID] = true
-	for i, record := range records {
-		if i < len(records)-1 {
-			step := records[i+1].ID - record.ID
-
-			if step != 1 {
-				return nil, fmt.Errorf("duplicate nodes")
-			}
+		if step != 1 {
+			return nil, fmt.Errorf("duplicate nodes")
 		}
 
-		if _, found := seenIDs[record.Parent]; found == false {
+		if _, found := nodes[record.Parent]; found == false {
 			return nil, fmt.Errorf("cycle present")
 		}
 
-		seenIDs[record.ID] = true
-	}
-
-	// build remaining nodes of tree
-	for _, rec := range records[1:] {
-		node := Node{ID: rec.ID}
-		parent := findParent(&rootNode, rec.Parent)
+		node := Node{ID: record.ID}
+		parent := nodes[record.Parent]
 		parent.Children = append(parent.Children, &node)
+		nodes[record.ID] = &node
 	}
 
 	return &rootNode, nil
-}
-
-func findParent(root *Node, parentID int) *Node {
-	if root.ID == parentID {
-		return root
-	}
-
-	for _, child := range root.Children {
-		if parent := findParent(child, parentID); parent != nil {
-			return parent
-		}
-	}
-
-	return nil
 }
