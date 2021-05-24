@@ -24,25 +24,18 @@ func Build(records []Record) (*Node, error) {
 
 	nodes := make(map[int]*Node)
 
-	for i, record := range records {
-		if i != record.ID {
-			return nil, fmt.Errorf("invalid tree")
+	for i, r := range records {
+		node := Node{ID: r.ID}
+		if i != r.ID || r.ID == 0 && r.Parent > 0 || r.Parent > 0 && r.Parent >= node.ID {
+			return nil, fmt.Errorf("not in sequence or has bad parent")
 		}
 
-		if record.ID == 0 && record.Parent > 0 {
-			return nil, fmt.Errorf("root node has parent")
-		}
-
-		node := Node{ID: record.ID}
-		if record.Parent > 0 && record.Parent >= node.ID {
-			return nil, fmt.Errorf("cycle present")
-		}
-
-		if parent, found := nodes[record.Parent]; found {
+		if r.ID != 0 {
+			parent := nodes[r.Parent]
 			parent.Children = append(parent.Children, &node)
 		}
 
-		nodes[record.ID] = &node
+		nodes[r.ID] = &node
 	}
 
 	return nodes[0], nil
