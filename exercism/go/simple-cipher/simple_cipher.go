@@ -18,7 +18,7 @@ type KeyCipher struct {
 
 // NewCaesar is a factory function returning a ShiftCipher
 func NewCaesar() Cipher {
-	return ShiftCipher{caesarShiftAmt}
+	return NewShift(caesarShiftAmt)
 }
 
 // NewShift is a factory function returning a ShiftCipher with a shift amount
@@ -27,9 +27,9 @@ func NewShift(amt int) Cipher {
 		return nil
 	}
 
-	var sc Cipher
-	sc = ShiftCipher{amt}
-	return sc
+	var c Cipher
+	c = &ShiftCipher{amt}
+	return c
 }
 
 // Encode returns the caeser cipher encoded string
@@ -37,7 +37,6 @@ func (c ShiftCipher) Encode(str string) string {
 	var b bytes.Buffer
 
 	for _, ch := range str {
-
 		ch |= 0b0100000
 		if ch >= 'a' && ch <= 'z' {
 			b.WriteByte(byte(mod((int(ch)-'a'+c.shift), 26) + 'a'))
@@ -60,23 +59,7 @@ func (c ShiftCipher) Decode(str string) string {
 
 // NewVigenere is a factory function returning a KeyCipher
 func NewVigenere(key string) Cipher {
-	if key == "" {
-		return nil
-	}
-
-	allAs := true
-	invalidChar := false
-	for _, ch := range key {
-		if ch == 32 || ch < 'a' || ch > 'z' {
-			invalidChar = true
-		}
-
-		if ch != 'a' {
-			allAs = false
-		}
-	}
-
-	if allAs || invalidChar {
+	if key == "" || !validKey(key) {
 		return nil
 	}
 
@@ -113,4 +96,28 @@ func (k KeyCipher) Decode(str string) string {
 	}
 
 	return b.String()
+}
+
+func mod(a, b int) int {
+	return (a%b + b) % b
+}
+
+func validKey(key string) bool {
+	allAs := true
+	invalidChar := false
+	for _, ch := range key {
+		if ch == 32 || ch < 'a' || ch > 'z' {
+			invalidChar = true
+		}
+
+		if ch != 'a' {
+			allAs = false
+		}
+	}
+
+	if allAs || invalidChar {
+		return false
+	}
+
+	return true
 }
