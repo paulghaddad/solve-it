@@ -21,9 +21,8 @@ func Handshake(code uint) []string {
 	}
 
 	if 16&code == 16 {
-		numEvents := len(events)
-		for i := 0; i < numEvents/2; i++ {
-			events[i], events[numEvents-1-i] = events[numEvents-1-i], events[i]
+		for i, j := 0, len(events)-1; i < j; i, j = i+1, j-1 {
+			events[i], events[j] = events[j], events[i]
 		}
 	}
 
