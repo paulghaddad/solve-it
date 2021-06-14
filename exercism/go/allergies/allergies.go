@@ -1,32 +1,25 @@
 package allergies
 
+var allergenVals = [8]string{
+	"eggs",
+	"peanuts",
+	"shellfish",
+	"strawberries",
+	"tomatoes",
+	"chocolate",
+	"pollen",
+	"cats",
+}
+
 // Allergies returns the list of allergens for a allergy score
 func Allergies(score uint) []string {
 	var allergens []string
 
-	if score&1 == 1 {
-		allergens = append(allergens, "eggs")
-	}
-	if score&2 == 2 {
-		allergens = append(allergens, "peanuts")
-	}
-	if score&4 == 4 {
-		allergens = append(allergens, "shellfish")
-	}
-	if score&8 == 8 {
-		allergens = append(allergens, "strawberries")
-	}
-	if score&16 == 16 {
-		allergens = append(allergens, "tomatoes")
-	}
-	if score&32 == 32 {
-		allergens = append(allergens, "chocolate")
-	}
-	if score&64 == 64 {
-		allergens = append(allergens, "pollen")
-	}
-	if score&128 == 128 {
-		allergens = append(allergens, "cats")
+	for i, all := range allergenVals {
+		val := uint(1 << i)
+		if score&val > 0 {
+			allergens = append(allergens, all)
+		}
 	}
 
 	return allergens
