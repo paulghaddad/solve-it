@@ -14,16 +14,17 @@ func EncodeVarint(input []uint32) []byte {
 			output = append(output, byte(0))
 		}
 
+		// encode to base 128 representation
 		for val > 0 {
 			val, r = val/128, val%128
 			encoding = append([]byte{byte(r)}, encoding...)
 		}
 
-		for i := 0; i < len(encoding)-1; i++ {
-			encoding[i] = 0b10000000 | encoding[i]
-		}
-
-		for _, val := range encoding {
+		// append to output, adding a leading bit unless it's the right-most byte
+		for i, val := range encoding {
+			if i < len(encoding)-1 {
+				val = 0b10000000 | val
+			}
 			output = append(output, val)
 		}
 	}
@@ -35,26 +36,20 @@ func EncodeVarint(input []uint32) []byte {
 func DecodeVarint(input []byte) ([]uint32, error) {
 	var output []uint32
 	var decodedInt uint32
-	var bitOn bool
+
+	// sequence should not end with a leading bit
+	if input[len(input)-1]&128 != 0 {
+		return nil, errors.New("incomplete sequence")
+	}
 
 	for _, val := range input {
-		if 0b10000000&val > 0 {
-			bitOn = true
-		} else {
-			bitOn = false
-		}
+		decodedInt = 128*decodedInt + uint32(127&val)
 
-		val = 0b01111111 & val
-		decodedInt = 128*decodedInt + uint32(val)
-
-		if !bitOn {
+		// right-most byte, write out
+		if 128&val == 0 {
 			output = append(output, decodedInt)
 			decodedInt = 0
 		}
-	}
-
-	if bitOn {
-		return []uint32{}, errors.New("incomplete sequence")
 	}
 
 	return output, nil
