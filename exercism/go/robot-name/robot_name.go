@@ -1,6 +1,7 @@
 package robotname
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -10,21 +11,40 @@ type Robot struct {
 	name string
 }
 
+var random = rand.New(rand.NewSource(time.Now().UnixNano()))
+
+var maxNamespace = 26 * 26 * 10 * 10 * 10
+var usedNames = make(map[string]bool)
+
+func newName() string {
+	var name string
+
+	for {
+		c1 := random.Intn(26) + 'A'
+		c2 := random.Intn(26) + 'A'
+		num := random.Intn(1000)
+		name = fmt.Sprintf("%c%c%d", c1, c2, num)
+
+		_, found := usedNames[name]
+		if found {
+			continue
+		}
+
+		usedNames[name] = true
+		break
+	}
+
+	return name
+}
+
 // Name creates a name for a robot
 func (r *Robot) Name() (string, error) {
 	if r.name == "" {
-		rand.Seed(time.Now().UnixNano())
-		b := make([]byte, 5)
-
-		for i := 0; i < 2; i++ {
-			b[i] = byte(rand.Intn(26) + 'A')
+		if len(usedNames) >= maxNamespace {
+			return "", fmt.Errorf("namespace is exhausted")
 		}
 
-		for i := 2; i < 5; i++ {
-			b[i] = byte(rand.Intn(10) + '0')
-		}
-
-		r.name = string(b)
+		r.name = newName()
 	}
 
 	return r.name, nil
