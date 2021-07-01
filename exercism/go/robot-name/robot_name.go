@@ -19,33 +19,29 @@ var usedNames = make(map[string]bool)
 func newName() string {
 	var name string
 
-	for {
-		c1 := random.Intn(26) + 'A'
-		c2 := random.Intn(26) + 'A'
-		num := random.Intn(1000)
-		name = fmt.Sprintf("%c%c%d", c1, c2, num)
-
-		_, found := usedNames[name]
-		if found {
-			continue
-		}
-
-		usedNames[name] = true
-		break
-	}
-
+	c1 := random.Intn(26) + 'A'
+	c2 := random.Intn(26) + 'A'
+	num := random.Intn(1000)
+	name = fmt.Sprintf("%c%c%d", c1, c2, num)
 	return name
 }
 
 // Name creates a name for a robot
 func (r *Robot) Name() (string, error) {
-	if r.name == "" {
-		if len(usedNames) >= maxNamespace {
-			return "", fmt.Errorf("namespace is exhausted")
-		}
+	if r.name != "" {
+		return r.name, nil
+	}
 
+	if len(usedNames) >= maxNamespace {
+		return "", fmt.Errorf("namespace is exhausted")
+	}
+
+	r.name = newName()
+	for usedNames[r.name] {
 		r.name = newName()
 	}
+
+	usedNames[r.name] = true
 
 	return r.name, nil
 }
