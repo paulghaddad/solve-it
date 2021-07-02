@@ -1,9 +1,9 @@
 package brackets
 
 var complements = map[rune]rune{
-	']': '[',
-	'}': '{',
-	')': '(',
+	'[': ']',
+	'{': '}',
+	'(': ')',
 }
 
 // Bracket determines if the complements of the string properly match
@@ -15,12 +15,13 @@ func Bracket(s string) bool {
 			stack = append(stack, r)
 		}
 
-		if comp, found := complements[r]; found {
+		if r == ']' || r == '}' || r == ')' {
 			if len(stack) == 0 {
 				return false
 			}
 
-			if comp != stack[len(stack)-1] {
+			expectedPair := stack[len(stack)-1]
+			if complements[expectedPair] != r {
 				return false
 			}
 
