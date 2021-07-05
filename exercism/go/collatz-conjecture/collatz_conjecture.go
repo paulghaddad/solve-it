@@ -8,12 +8,12 @@ func CollatzConjecture(n int) (int, error) {
 	var steps int
 
 	if n < 1 {
-		return 0, fmt.Errorf("n must be larger than 0")
+		return -1, fmt.Errorf("n must be larger than 0")
 	}
 
 	for n > 1 {
-		if n%2 == 0 {
-			n /= 2
+		if n&1 == 0 {
+			n >>= 1
 		} else {
 			n = 3*n + 1
 		}
