@@ -70,28 +70,14 @@ func (l IntList) Reverse() IntList {
 
 // Append extends the list with one or more elements
 func (l IntList) Append(vals []int) IntList {
-	res := make(IntList, l.Length()+len(vals))
-
-	for i, el := range l {
-		res[i] = el
-	}
-
-	for i, el := range vals {
-		res[l.Length()+i] = el
-	}
-
-	return res
+	return append(l, vals...)
 }
 
 // Concat combines one or more lists into one
 func (l IntList) Concat(lists []IntList) IntList {
-	res := l
-
 	for _, list := range lists {
-		for _, el := range list {
-			res = append(res, el)
-		}
+		l = append(l, list...)
 	}
 
-	return res
+	return l
 }
